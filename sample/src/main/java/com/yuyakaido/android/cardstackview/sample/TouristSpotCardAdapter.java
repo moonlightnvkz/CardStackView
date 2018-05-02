@@ -1,14 +1,14 @@
 package com.yuyakaido.android.cardstackview.sample;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
-import com.bumptech.glide.Glide;
 
 public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
 
@@ -16,39 +16,34 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
         super(context, 0);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View contentView, ViewGroup parent) {
-        ViewHolder holder;
-
+    public View getView(int position, View contentView, @NonNull ViewGroup parent) {
         if (contentView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            contentView = inflater.inflate(R.layout.item_tourist_spot_card, parent, false);
-            holder = new ViewHolder(contentView);
-            contentView.setTag(holder);
+            FrameLayout layout = new FrameLayout(parent.getContext());
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layout.setLayoutParams(params);
+            int id = View.generateViewId();
+            layout.setId(id);
+
+            ((AppCompatActivity)parent.getContext())
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(id, CardViewFragment
+                            .NewInstance(Color.BLUE, "front", "back"))
+                    .addToBackStack(null)
+                    .commit();
+            return layout;
         } else {
-            holder = (ViewHolder) contentView.getTag();
-        }
-
-        TouristSpot spot = getItem(position);
-
-        holder.name.setText(spot.name);
-        holder.city.setText(spot.city);
-        Glide.with(getContext()).load(spot.url).into(holder.image);
-
-        return contentView;
-    }
-
-    private static class ViewHolder {
-        public TextView name;
-        public TextView city;
-        public ImageView image;
-
-        public ViewHolder(View view) {
-            this.name = (TextView) view.findViewById(R.id.item_tourist_spot_card_name);
-            this.city = (TextView) view.findViewById(R.id.item_tourist_spot_card_city);
-            this.image = (ImageView) view.findViewById(R.id.item_tourist_spot_card_image);
+            ((AppCompatActivity)parent.getContext())
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(contentView.getId(), CardViewFragment
+                            .NewInstance(Color.BLUE, "front", "back"))
+                    .addToBackStack(null)
+                    .commit();
+            return contentView;
         }
     }
-
 }
 

@@ -2,4 +2,6 @@
 
 <resources>
     <string name="app_name">CardStackView</string>
+
+    <string name="card_background_desc">Background</string>
 </resources>
