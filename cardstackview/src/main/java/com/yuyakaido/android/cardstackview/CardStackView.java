@@ -87,6 +87,7 @@ public class CardStackView extends FrameLayout {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CardStackView);
         setVisibleCount(array.getInt(R.styleable.CardStackView_visibleCount, option.visibleCount));
         setSwipeThreshold(array.getFloat(R.styleable.CardStackView_swipeThreshold, option.swipeThreshold));
+        setMoveThreshold(array.getFloat(R.styleable.CardStackView_moveThreshold, option.moveThreshold));
         setTranslationDiff(array.getFloat(R.styleable.CardStackView_translationDiff, option.translationDiff));
         setScaleDiff(array.getFloat(R.styleable.CardStackView_scaleDiff, option.scaleDiff));
         setStackFrom(StackFrom.values()[array.getInt(R.styleable.CardStackView_stackFrom, option.stackFrom.ordinal())]);
@@ -131,6 +132,7 @@ public class CardStackView extends FrameLayout {
             view.setDraggable(false);
             view.setCardStackOption(option);
             view.setOverlay(option.leftOverlay, option.rightOverlay, option.bottomOverlay, option.topOverlay);
+            view.setMoveThreshold(option.moveThreshold);
             containers.add(0, view);
             addView(view);
         }
@@ -464,6 +466,18 @@ public class CardStackView extends FrameLayout {
 
     public void setPaginationReserved() {
         state.isPaginationReserved = true;
+    }
+
+    /**
+     *
+     * @param threshold value in dp
+     */
+    public void setMoveThreshold(float threshold) {
+        option.moveThreshold = threshold;
+        for (CardContainerView view :
+                containers) {
+            view.setMoveThreshold(option.moveThreshold);
+        }
     }
 
     public void swipe(final Point point, final SwipeDirection direction) {

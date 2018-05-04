@@ -11,7 +11,10 @@ import android.widget.FrameLayout;
 
 
 public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
-
+//    static final String FRONT = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX\nY\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ";
+//    static final String BACK = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX\nY\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ\nZ";
+    static final String FRONT = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX";
+    static final String BACK = "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN\nO\nP\nQ\nR\nS\nT\nU\nV\nW\nX\nY\nZ";
     public TouristSpotCardAdapter(Context context) {
         super(context, 0);
     }
@@ -30,8 +33,7 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .add(id, CardViewFragment
-                            .NewInstance(Color.BLUE, "front", "back"))
-                    .addToBackStack(null)
+                            .NewInstance(Color.BLUE, FRONT, BACK))
                     .commit();
             return layout;
         } else {
@@ -39,8 +41,7 @@ public class TouristSpotCardAdapter extends ArrayAdapter<TouristSpot> {
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(contentView.getId(), CardViewFragment
-                            .NewInstance(Color.BLUE, "front", "back"))
-                    .addToBackStack(null)
+                            .NewInstance(Color.BLUE, FRONT, BACK))
                     .commit();
             return contentView;
         }
