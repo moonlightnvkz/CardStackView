@@ -75,9 +75,12 @@ public class CardContainerView extends FrameLayout {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        super.onInterceptTouchEvent(ev);
+
         onTouchEvent(ev);
-        return super.onInterceptTouchEvent(ev);
+
+        return true;
     }
 
     @Override
