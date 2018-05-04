@@ -1,6 +1,7 @@
 package com.yuyakaido.android.cardstackview.internal;
 
 import android.animation.AnimatorSet;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
@@ -76,19 +77,24 @@ public class CardContainerView extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        super.onInterceptTouchEvent(ev);
+        super.dispatchTouchEvent(ev);
 
-        onTouchEvent(ev);
+        handleTouchEvent(ev);
 
         return true;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        return true;
+    }
+
+    public void handleTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
 
         if (!option.isSwipeEnabled || !isDraggable) {
-            return true;
+            return;
         }
 
         switch (MotionEventCompat.getActionMasked(event)) {
@@ -108,7 +114,6 @@ public class CardContainerView extends FrameLayout {
                 break;
         }
 
-        return true;
     }
 
     private void handleActionDown(MotionEvent event) {
